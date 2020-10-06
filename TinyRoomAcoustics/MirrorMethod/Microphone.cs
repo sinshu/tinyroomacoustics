@@ -26,7 +26,7 @@ namespace TinyRoomAcoustics.MirrorMethod
             }
             if (position.Count != 3)
             {
-                throw new ArgumentException("The length of the position vector must be 3.");
+                throw new ArgumentException(nameof(position), "The length of the position vector must be 3.");
             }
 
             this.position = position.Clone();
