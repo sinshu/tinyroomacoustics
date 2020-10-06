@@ -10,7 +10,7 @@ var reflectionAttenuation = new ReflectionAttenuation(freq => 0.8);
 var maxReflection = 16;
 var room = new Room(size, distanceAttenuation, reflectionAttenuation, maxReflection);
 
-// Place a soud source.
+// Place a sound source.
 var source = new SoundSource(1.0, 2.0, 1.2);
 
 // Place a microphone.
