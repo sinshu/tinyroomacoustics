@@ -181,7 +181,7 @@ namespace TinyRoomAcoustics.MirrorMethod
             return response;
         }
 
-        public static double[] GenerateImpulseResponseTimeDomain(Room room, SoundSource soundSource, Microphone microphone, int sampleRate, int dftLength)
+        public static double[] GenerateImpulseResponse(Room room, SoundSource soundSource, Microphone microphone, int sampleRate, int dftLength)
         {
             if (room == null)
             {

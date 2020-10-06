@@ -324,7 +324,7 @@ namespace TinyRoomAcousticsTest
         }
 
         [TestMethod]
-        public void GenerateImpulseResponseTimeDomain_CheckSignal()
+        public void GenerateImpulseResponse_CheckSignal()
         {
             var sampleRate = 16000;
             var dftLength = 1024;
@@ -340,7 +340,7 @@ namespace TinyRoomAcousticsTest
             var soundSource = new SoundSource(distance / 2, distance / 2, distance / 2);
             var microphone = new Microphone(distance / 2, distance / 2, distance / 2);
 
-            var response = MirrorMethod.GenerateImpulseResponseTimeDomain(room, soundSource, microphone, sampleRate, dftLength);
+            var response = MirrorMethod.GenerateImpulseResponse(room, soundSource, microphone, sampleRate, dftLength);
 
             Assert.AreEqual(dftLength / 2, response.Length);
 
