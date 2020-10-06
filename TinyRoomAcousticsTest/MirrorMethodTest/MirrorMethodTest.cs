@@ -65,33 +65,42 @@ namespace TinyRoomAcousticsTest
         public void GetMirroredPosition_Case1()
         {
             var roomSize = DenseVector.OfArray(new double[] { 3.0, 4.0, 2.0 });
-            var position = DenseVector.OfArray(new double[] { 0.5, 1.0, 1.5 });
+            var distanceAttenuation = new DistanceAttenuation(distance => 0.9);
+            var reflectionAttenuation = new ReflectionAttenuation(frequency => 0.7);
+            var room = new Room(roomSize, distanceAttenuation, reflectionAttenuation, 1);
+            var microphone = new Microphone(0.5, 1.0, 1.5);
             var index = new MirroredRoomIndex(0, 0, 0);
-            var mirrored = MirrorMethod.GetMirroredPosition(roomSize, position, index);
-            Assert.AreEqual(position[0], mirrored[0], 1.0E-9);
-            Assert.AreEqual(position[1], mirrored[1], 1.0E-9);
-            Assert.AreEqual(position[2], mirrored[2], 1.0E-9);
+            var mirrored = MirrorMethod.GetMirroredPosition(room, microphone, index);
+            Assert.AreEqual(microphone.Position[0], mirrored[0], 1.0E-9);
+            Assert.AreEqual(microphone.Position[1], mirrored[1], 1.0E-9);
+            Assert.AreEqual(microphone.Position[2], mirrored[2], 1.0E-9);
         }
 
         [TestMethod]
         public void GetMirroredPosition_Case2()
         {
             var roomSize = DenseVector.OfArray(new double[] { 3.0, 4.0, 2.0 });
-            var position = DenseVector.OfArray(new double[] { 0.5, 1.0, 1.5 });
+            var distanceAttenuation = new DistanceAttenuation(distance => 0.9);
+            var reflectionAttenuation = new ReflectionAttenuation(frequency => 0.7);
+            var room = new Room(roomSize, distanceAttenuation, reflectionAttenuation, 1);
+            var microphone = new Microphone(0.5, 1.0, 1.5);
             var index = new MirroredRoomIndex(-1, -1, -1);
-            var mirrored = MirrorMethod.GetMirroredPosition(roomSize, position, index);
-            Assert.AreEqual(-position[0], mirrored[0], 1.0E-9);
-            Assert.AreEqual(-position[1], mirrored[1], 1.0E-9);
-            Assert.AreEqual(-position[2], mirrored[2], 1.0E-9);
+            var mirrored = MirrorMethod.GetMirroredPosition(room, microphone, index);
+            Assert.AreEqual(-microphone.Position[0], mirrored[0], 1.0E-9);
+            Assert.AreEqual(-microphone.Position[1], mirrored[1], 1.0E-9);
+            Assert.AreEqual(-microphone.Position[2], mirrored[2], 1.0E-9);
         }
 
         [TestMethod]
         public void GetMirroredPosition_Case3()
         {
             var roomSize = DenseVector.OfArray(new double[] { 3.0, 4.0, 2.0 });
-            var position = DenseVector.OfArray(new double[] { 0.5, 1.0, 1.5 });
+            var distanceAttenuation = new DistanceAttenuation(distance => 0.9);
+            var reflectionAttenuation = new ReflectionAttenuation(frequency => 0.7);
+            var room = new Room(roomSize, distanceAttenuation, reflectionAttenuation, 1);
+            var microphone = new Microphone(0.5, 1.0, 1.5);
             var index = new MirroredRoomIndex(5, -2, -3);
-            var mirrored = MirrorMethod.GetMirroredPosition(roomSize, position, index);
+            var mirrored = MirrorMethod.GetMirroredPosition(room, microphone, index);
             Assert.AreEqual(15.0 + 2.5, mirrored[0], 1.0E-9);
             Assert.AreEqual(-8.0 + 1.0, mirrored[1], 1.0E-9);
             Assert.AreEqual(-6.0 + 0.5, mirrored[2], 1.0E-9);
@@ -101,9 +110,12 @@ namespace TinyRoomAcousticsTest
         public void GetMirroredPosition_Case4()
         {
             var roomSize = DenseVector.OfArray(new double[] { 3.0, 4.0, 2.0 });
-            var position = DenseVector.OfArray(new double[] { 0.5, 1.0, 1.5 });
+            var distanceAttenuation = new DistanceAttenuation(distance => 0.9);
+            var reflectionAttenuation = new ReflectionAttenuation(frequency => 0.7);
+            var room = new Room(roomSize, distanceAttenuation, reflectionAttenuation, 1);
+            var microphone = new Microphone(0.5, 1.0, 1.5);
             var index = new MirroredRoomIndex(-4, 3, 8);
-            var mirrored = MirrorMethod.GetMirroredPosition(roomSize, position, index);
+            var mirrored = MirrorMethod.GetMirroredPosition(room, microphone, index);
             Assert.AreEqual(-12.0 + 0.5, mirrored[0], 1.0E-9);
             Assert.AreEqual(12.0 + 3.0, mirrored[1], 1.0E-9);
             Assert.AreEqual(16.0 + 1.5, mirrored[2], 1.0E-9);

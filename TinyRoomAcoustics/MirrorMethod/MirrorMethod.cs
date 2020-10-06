@@ -15,7 +15,7 @@ namespace TinyRoomAcoustics.MirrorMethod
         {
             if (maxReflectionCount < 0)
             {
-                throw new ArgumentOutOfRangeException("The max reflection count must be non-negative.");
+                throw new ArgumentException(nameof(maxReflectionCount), "The max reflection count must be non-negative.");
             }
 
             return GenerateMirroredRoomIndicesCore(maxReflectionCount);
@@ -25,7 +25,7 @@ namespace TinyRoomAcoustics.MirrorMethod
         {
             if (maxReflectionCount < 0)
             {
-                throw new ArgumentOutOfRangeException("The max reflection count must be non-negative.");
+                throw new ArgumentException(nameof(maxReflectionCount), "The max reflection count must be non-negative.");
             }
 
             for (var reflectionCount = 0; reflectionCount <= maxReflectionCount; reflectionCount++)
@@ -54,44 +54,36 @@ namespace TinyRoomAcoustics.MirrorMethod
             }
         }
 
-        public static Vector<double> GetMirroredPosition(Vector<double> roomSize, Vector<double> position, MirroredRoomIndex index)
+        public static Vector<double> GetMirroredPosition(Room room, Microphone microphone, MirroredRoomIndex index)
         {
-            if (roomSize == null)
+            if (room == null)
             {
-                throw new ArgumentNullException(nameof(roomSize));
+                throw new ArgumentNullException(nameof(room));
             }
-            if (roomSize.Count != 3)
+            if (microphone == null)
             {
-                throw new ArgumentException("The length of the room size vector must be 3.");
+                throw new ArgumentNullException(nameof(microphone));
             }
-            if (roomSize.Any(value => value <= 0))
+            if (index == null)
             {
-                throw new ArgumentException("All the values of the room size vector must be positive.");
+                throw new ArgumentNullException(nameof(index));
             }
 
-            if (position == null)
-            {
-                throw new ArgumentNullException(nameof(position));
-            }
-            if (position.Count != 3)
-            {
-                throw new ArgumentException("The length of the position vector must be 3.");
-            }
             for (var i = 0; i < 3; i++)
             {
-                if (position[i] <= 0 || roomSize[i] <= position[i])
+                if (microphone.Position[i] <= 0 || room.Size[i] <= microphone.Position[i])
                 {
-                    throw new ArgumentException("The position must be inside the room.");
+                    throw new ArgumentException("The microphone must be inside the room.");
                 }
             }
 
-            var offsetX = index.X * roomSize[0];
-            var offsetY = index.Y * roomSize[1];
-            var offsetZ = index.Z * roomSize[2];
+            var offsetX = index.X * room.Size[0];
+            var offsetY = index.Y * room.Size[1];
+            var offsetZ = index.Z * room.Size[2];
 
-            var mirroredX = (index.X & 1) == 0 ? position[0] : roomSize[0] - position[0];
-            var mirroredY = (index.Y & 1) == 0 ? position[1] : roomSize[1] - position[1];
-            var mirroredZ = (index.Z & 1) == 0 ? position[2] : roomSize[2] - position[2];
+            var mirroredX = (index.X & 1) == 0 ? microphone.Position[0] : room.Size[0] - microphone.Position[0];
+            var mirroredY = (index.Y & 1) == 0 ? microphone.Position[1] : room.Size[1] - microphone.Position[1];
+            var mirroredZ = (index.Z & 1) == 0 ? microphone.Position[2] : room.Size[2] - microphone.Position[2];
 
             var array = new double[]
             {
@@ -107,7 +99,7 @@ namespace TinyRoomAcoustics.MirrorMethod
         {
             if (dftLength <= 0 || dftLength % 2 != 0)
             {
-                throw new ArgumentException("The DFT length must be positive and even.");
+                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
             }
 
             var filter = new Complex[dftLength / 2 + 1];
@@ -141,7 +133,7 @@ namespace TinyRoomAcoustics.MirrorMethod
         {
             foreach (var index in GenerateMirroredRoomIndices(room.MaxReflectionCount))
             {
-                var mirroredPosition = GetMirroredPosition(room.Size, microphone.Position, index);
+                var mirroredPosition = GetMirroredPosition(room, microphone, index);
                 var distance = (mirroredPosition - soundSource.Position).L2Norm();
                 var reflectionCount = Math.Abs(index.X) + Math.Abs(index.Y) + Math.Abs(index.Z);
                 yield return new Ray(distance, reflectionCount);
@@ -150,6 +142,28 @@ namespace TinyRoomAcoustics.MirrorMethod
 
         public static Complex[] GenerateImpulseResponseFrequencyDomain(Room room, SoundSource soundSource, Microphone microphone, int sampleRate, int dftLength)
         {
+            if (room == null)
+            {
+                throw new ArgumentNullException(nameof(room));
+            }
+            if (soundSource == null)
+            {
+                throw new ArgumentNullException(nameof(soundSource));
+            }
+            if (microphone == null)
+            {
+                throw new ArgumentNullException(nameof(microphone));
+            }
+
+            if (sampleRate <= 0)
+            {
+                throw new ArgumentException(nameof(sampleRate), "The sample rate must be positive.");
+            }
+            if (dftLength <= 0 || dftLength % 2 != 0)
+            {
+                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
+            }
+
             var response = new Complex[dftLength / 2 + 1];
             foreach (var ray in GenerateRays(room, soundSource, microphone))
             {
@@ -169,6 +183,28 @@ namespace TinyRoomAcoustics.MirrorMethod
 
         public static double[] GenerateImpulseResponseTimeDomain(Room room, SoundSource soundSource, Microphone microphone, int sampleRate, int dftLength)
         {
+            if (room == null)
+            {
+                throw new ArgumentNullException(nameof(room));
+            }
+            if (soundSource == null)
+            {
+                throw new ArgumentNullException(nameof(soundSource));
+            }
+            if (microphone == null)
+            {
+                throw new ArgumentNullException(nameof(microphone));
+            }
+
+            if (sampleRate <= 0)
+            {
+                throw new ArgumentException(nameof(sampleRate), "The sample rate must be positive.");
+            }
+            if (dftLength <= 0 || dftLength % 2 != 0)
+            {
+                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
+            }
+
             var response = GenerateImpulseResponseFrequencyDomain(room, soundSource, microphone, sampleRate, dftLength);
 
             var timeDomainSignal = new Complex[dftLength];
