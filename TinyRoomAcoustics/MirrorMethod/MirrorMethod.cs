@@ -23,11 +23,6 @@ namespace TinyRoomAcoustics.MirrorMethod
 
         private static IEnumerable<MirroredRoomIndex> GenerateMirroredRoomIndicesCore(int maxReflectionCount)
         {
-            if (maxReflectionCount < 0)
-            {
-                throw new ArgumentException(nameof(maxReflectionCount), "The max reflection count must be non-negative.");
-            }
-
             for (var reflectionCount = 0; reflectionCount <= maxReflectionCount; reflectionCount++)
             {
                 var maxX = reflectionCount;
