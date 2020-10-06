@@ -225,6 +225,60 @@ namespace TinyRoomAcousticsTest
                     Assert.AreEqual(6 * 0.9 * 0.7, timeDomainSignal[t].Real, 1.0E-6);
                     Assert.AreEqual(0.0, timeDomainSignal[t].Imaginary, 1.0E-6);
                 }
+                else
+                {
+                    Assert.AreEqual(0.0, timeDomainSignal[t].Real, 1.0E-6);
+                    Assert.AreEqual(0.0, timeDomainSignal[t].Imaginary, 1.0E-6);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GenerateImpulseResponseFrequencyDomain_CheckDistanceAttenuation()
+        {
+            var sampleRate = 16000;
+            var dftLength = 1024;
+            var delaySampleCount = 30;
+
+            var time = (double)delaySampleCount / sampleRate;
+            var distance = Room.SoundSpeed * time;
+
+            var roomSize = DenseVector.OfArray(new double[] { distance, distance, distance });
+            var distanceAttenuation = new DistanceAttenuation(distance => distance < 0.1 ? 3.1 : 2.3);
+            var reflectionAttenuation = new ReflectionAttenuation(frequency => 0.7);
+            var room = new Room(roomSize, distanceAttenuation, reflectionAttenuation, 1);
+            var soundSource = new SoundSource(distance / 2, distance / 2, distance / 2);
+            var microphone = new Microphone(distance / 2, distance / 2, distance / 2);
+
+            var response = MirrorMethod.GenerateImpulseResponseFrequencyDomain(room, soundSource, microphone, sampleRate, dftLength);
+
+            var timeDomainSignal = new Complex[dftLength];
+            timeDomainSignal[0] = response[0];
+            for (var w = 1; w < dftLength / 2; w++)
+            {
+                timeDomainSignal[w] = response[w];
+                timeDomainSignal[dftLength - w] = response[w].Conjugate();
+            }
+            timeDomainSignal[dftLength / 2] = response[dftLength / 2];
+            Fourier.Inverse(timeDomainSignal, FourierOptions.AsymmetricScaling);
+
+            for (var t = 0; t < dftLength; t++)
+            {
+                if (t == 0)
+                {
+                    Assert.AreEqual(3.1, timeDomainSignal[t].Real, 1.0E-6);
+                    Assert.AreEqual(0.0, timeDomainSignal[t].Imaginary, 1.0E-6);
+                }
+                else if (t == delaySampleCount)
+                {
+                    Assert.AreEqual(6 * 2.3 * 0.7, timeDomainSignal[t].Real, 1.0E-6);
+                    Assert.AreEqual(0.0, timeDomainSignal[t].Imaginary, 1.0E-6);
+                }
+                else
+                {
+                    Assert.AreEqual(0.0, timeDomainSignal[t].Real, 1.0E-6);
+                    Assert.AreEqual(0.0, timeDomainSignal[t].Imaginary, 1.0E-6);
+                }
             }
         }
 
