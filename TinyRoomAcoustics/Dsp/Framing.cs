@@ -42,7 +42,7 @@ namespace TinyRoomAcoustics.Dsp
 
             var frame = new double[window.Length];
 
-            if (sourceEnd - sourceStart > 0)
+            if (frameEnd - frameStart > 0)
             {
                 var st = sourceStart;
                 for (var ft = frameStart; ft < frameEnd; ft++)
@@ -88,7 +88,7 @@ namespace TinyRoomAcoustics.Dsp
 
             var frame = new Complex[window.Length];
 
-            if (sourceEnd - sourceStart > 0)
+            if (frameEnd - frameStart > 0)
             {
                 var st = sourceStart;
                 for (var ft = frameStart; ft < frameEnd; ft++)
@@ -141,7 +141,7 @@ namespace TinyRoomAcoustics.Dsp
                 frameEnd -= exceedance;
             }
 
-            if (frameEnd - frameStart > 0)
+            if (destinationEnd - destinationStart > 0)
             {
                 var ft = frameStart;
                 for (var dt = destinationStart; dt < destinationEnd; dt++)
@@ -192,7 +192,7 @@ namespace TinyRoomAcoustics.Dsp
                 frameEnd -= exceedance;
             }
 
-            if (frameEnd - frameStart > 0)
+            if (destinationEnd - destinationStart > 0)
             {
                 var ft = frameStart;
                 for (var dt = destinationStart; dt < destinationEnd; dt++)
