@@ -31,7 +31,7 @@ namespace TinyRoomAcousticsTest
         [DataRow(10, 30, -10)] // Source is shorter than frame
         [DataRow(10, 30, 0)] // Source is shorter than frame
         [DataRow(10, 30, -20)] // Source is shorter than frame
-        public void GetFrame_CheckWithNaiveImplementation(int destinationLength, int windowLength, int position)
+        public void OverlapAdd_CheckWithNaiveImplementation(int destinationLength, int windowLength, int position)
         {
             var random = new Random(57);
             var destination = Enumerable.Range(0, destinationLength).Select(t => random.NextDouble()).ToArray();
