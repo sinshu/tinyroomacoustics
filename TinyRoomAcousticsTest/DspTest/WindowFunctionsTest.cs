@@ -26,6 +26,10 @@ namespace TinyRoomAcousticsTest
 
             Assert.AreEqual(0.5, hann[64], 1.0E-6);
             Assert.AreEqual(0.5, hann[192], 1.0E-6);
+
+            Assert.AreEqual(0.0, hann.Min(), 1.0E-6);
+            Assert.AreEqual(1.0, hann.Max(), 1.0E-6);
+            Assert.AreEqual(0.5, hann.Average(), 1.0E-6);
         }
 
         [TestMethod]
