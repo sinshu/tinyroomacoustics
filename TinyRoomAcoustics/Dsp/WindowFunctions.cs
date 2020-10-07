@@ -11,6 +11,11 @@ namespace TinyRoomAcoustics.Dsp
     {
         public static double[] Hann(int length)
         {
+            if (length <= 0)
+            {
+                throw new ArgumentException(nameof(length), "The window length must be positive.");
+            }
+
             var window = new double[length];
             for (var t = 0; t < length; t++)
             {
@@ -22,6 +27,11 @@ namespace TinyRoomAcoustics.Dsp
 
         public static double[] SqrtHann(int length)
         {
+            if (length <= 0)
+            {
+                throw new ArgumentException(nameof(length), "The window length must be positive.");
+            }
+
             var window = new double[length];
             for (var t = 0; t < length; t++)
             {
