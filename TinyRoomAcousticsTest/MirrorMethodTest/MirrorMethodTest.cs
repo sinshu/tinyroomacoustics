@@ -122,42 +122,6 @@ namespace TinyRoomAcousticsTest
             Assert.AreEqual(16.0 + 1.5, mirrored[2], 1.0E-9);
         }
 
-        [DataTestMethod]
-        [DataRow(16)]
-        [DataRow(64)]
-        [DataRow(256)]
-        public void GenerateDelayFilter_CheckTimeDomainSignal(int dftLength)
-        {
-            for (var delaySampleCount = 0; delaySampleCount < dftLength; delaySampleCount++)
-            {
-                var filter = MirrorMethod.GenerateDelayFilter(dftLength, delaySampleCount);
-
-                var timeDomainSignal = new Complex[dftLength];
-                timeDomainSignal[0] = filter[0];
-                for (var w = 1; w < dftLength / 2; w++)
-                {
-                    timeDomainSignal[w] = filter[w];
-                    timeDomainSignal[dftLength - w] = filter[w].Conjugate();
-                }
-                timeDomainSignal[dftLength / 2] = filter[dftLength / 2];
-                Fourier.Inverse(timeDomainSignal, FourierOptions.AsymmetricScaling);
-
-                for (var t = 0; t < dftLength; t++)
-                {
-                    if (t == delaySampleCount)
-                    {
-                        Assert.AreEqual(1.0, timeDomainSignal[t].Real, 1.0E-6);
-                        Assert.AreEqual(0.0, timeDomainSignal[t].Imaginary, 1.0E-6);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(0.0, timeDomainSignal[t].Real, 1.0E-6);
-                        Assert.AreEqual(0.0, timeDomainSignal[t].Imaginary, 1.0E-6);
-                    }
-                }
-            }
-        }
-
         [TestMethod]
         public void GenerateRays_CheckRayProperties()
         {
@@ -186,7 +150,7 @@ namespace TinyRoomAcousticsTest
         }
 
         [TestMethod]
-        public void GenerateImpulseResponseFrequencyDomain_CheckTimeDomainSignal()
+        public void GenerateFrequencyDomainImpulseResponse_CheckTimeDomainSignal()
         {
             var sampleRate = 16000;
             var dftLength = 1024;
@@ -202,7 +166,7 @@ namespace TinyRoomAcousticsTest
             var soundSource = new SoundSource(distance / 2, distance / 2, distance / 2);
             var microphone = new Microphone(distance / 2, distance / 2, distance / 2);
 
-            var response = MirrorMethod.GenerateImpulseResponseFrequencyDomain(room, soundSource, microphone, sampleRate, dftLength);
+            var response = MirrorMethod.GenerateFrequencyDomainImpulseResponse(room, soundSource, microphone, sampleRate, dftLength);
 
             var timeDomainSignal = new Complex[dftLength];
             timeDomainSignal[0] = response[0];
@@ -235,7 +199,7 @@ namespace TinyRoomAcousticsTest
         }
 
         [TestMethod]
-        public void GenerateImpulseResponseFrequencyDomain_CheckDistanceAttenuation()
+        public void GenerateFrequencyDomainImpulseResponse_CheckDistanceAttenuation()
         {
             var sampleRate = 16000;
             var dftLength = 1024;
@@ -251,7 +215,7 @@ namespace TinyRoomAcousticsTest
             var soundSource = new SoundSource(distance / 2, distance / 2, distance / 2);
             var microphone = new Microphone(distance / 2, distance / 2, distance / 2);
 
-            var response = MirrorMethod.GenerateImpulseResponseFrequencyDomain(room, soundSource, microphone, sampleRate, dftLength);
+            var response = MirrorMethod.GenerateFrequencyDomainImpulseResponse(room, soundSource, microphone, sampleRate, dftLength);
 
             var timeDomainSignal = new Complex[dftLength];
             timeDomainSignal[0] = response[0];
@@ -284,7 +248,7 @@ namespace TinyRoomAcousticsTest
         }
 
         [TestMethod]
-        public void GenerateImpulseResponseFrequencyDomain_CheckReflectionAttenuation()
+        public void GenerateFrequencyDomainImpulseResponse_CheckReflectionAttenuation()
         {
             var sampleRate = 16000;
             var dftLength = 1024;
@@ -302,7 +266,7 @@ namespace TinyRoomAcousticsTest
             var soundSource = new SoundSource(distance / 2, distance / 2, distance / 2);
             var microphone = new Microphone(distance / 2, distance / 2, distance / 2);
 
-            var response = MirrorMethod.GenerateImpulseResponseFrequencyDomain(room, soundSource, microphone, sampleRate, dftLength);
+            var response = MirrorMethod.GenerateFrequencyDomainImpulseResponse(room, soundSource, microphone, sampleRate, dftLength);
 
             var validCount = 0;
             for (var w = 0; w < response.Length; w++)

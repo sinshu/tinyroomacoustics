@@ -6,6 +6,7 @@ using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
+using TinyRoomAcoustics.Dsp;
 
 namespace TinyRoomAcoustics.MirrorMethod
 {
@@ -90,22 +91,6 @@ namespace TinyRoomAcoustics.MirrorMethod
             return DenseVector.OfArray(array);
         }
 
-        public static Complex[] GenerateDelayFilter(int dftLength, double delaySampleCount)
-        {
-            if (dftLength <= 0 || dftLength % 2 != 0)
-            {
-                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
-            }
-
-            var filter = new Complex[dftLength / 2 + 1];
-            for (var i = 0; i < filter.Length; i++)
-            {
-                var theta = 2 * Math.PI * delaySampleCount / dftLength * i;
-                filter[i] = new Complex(Math.Cos(theta), -Math.Sin(theta));
-            }
-            return filter;
-        }
-
         public static IEnumerable<Ray> GenerateRays(Room room, SoundSource soundSource, Microphone microphone)
         {
             if (room == null)
@@ -135,7 +120,7 @@ namespace TinyRoomAcoustics.MirrorMethod
             }
         }
 
-        public static Complex[] GenerateImpulseResponseFrequencyDomain(Room room, SoundSource soundSource, Microphone microphone, int sampleRate, int dftLength)
+        public static Complex[] GenerateFrequencyDomainImpulseResponse(Room room, SoundSource soundSource, Microphone microphone, int sampleRate, int dftLength)
         {
             if (room == null)
             {
@@ -164,7 +149,7 @@ namespace TinyRoomAcoustics.MirrorMethod
             {
                 var time = ray.Distance / AcousticConstants.SoundSpeed;
                 var delaySampleCount = sampleRate * time;
-                var delayFilter = GenerateDelayFilter(dftLength, delaySampleCount);
+                var delayFilter = Filtering.CreateFrequencyDomainDelayFilter(dftLength, delaySampleCount);
                 var distanceAttenuation = room.DistanceAttenuation(ray.Distance);
                 for (var w = 0; w < response.Length; w++)
                 {
@@ -200,7 +185,7 @@ namespace TinyRoomAcoustics.MirrorMethod
                 throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
             }
 
-            var response = GenerateImpulseResponseFrequencyDomain(room, soundSource, microphone, sampleRate, dftLength);
+            var response = GenerateFrequencyDomainImpulseResponse(room, soundSource, microphone, sampleRate, dftLength);
 
             var timeDomainSignal = new Complex[dftLength];
             timeDomainSignal[0] = response[0];

@@ -102,5 +102,21 @@ namespace TinyRoomAcoustics.Dsp
             }
             return pot;
         }
+
+        public static Complex[] CreateFrequencyDomainDelayFilter(int dftLength, double delaySampleCount)
+        {
+            if (dftLength <= 0 || dftLength % 2 != 0)
+            {
+                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
+            }
+
+            var filter = new Complex[dftLength / 2 + 1];
+            for (var i = 0; i < filter.Length; i++)
+            {
+                var theta = 2 * Math.PI * delaySampleCount / dftLength * i;
+                filter[i] = new Complex(Math.Cos(theta), -Math.Sin(theta));
+            }
+            return filter;
+        }
     }
 }
