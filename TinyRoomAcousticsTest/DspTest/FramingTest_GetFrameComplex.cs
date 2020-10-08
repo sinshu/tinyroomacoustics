@@ -18,7 +18,7 @@ namespace TinyRoomAcousticsTest
         [DataRow(50, 50, 0)]
         [DataRow(100, 10, 0)]
         [DataRow(100, 10, 90)]
-        public void GetFrame_CheckWithLinq(int sourceLength, int windowLength, int position)
+        public void CheckWithLinq(int sourceLength, int windowLength, int position)
         {
             var random = new Random(57);
             var source = Enumerable.Range(0, sourceLength).Select(t => random.NextDouble()).ToArray();
@@ -57,7 +57,7 @@ namespace TinyRoomAcousticsTest
         [DataRow(10, 30, -10)] // Source is shorter than frame
         [DataRow(10, 30, 0)] // Source is shorter than frame
         [DataRow(10, 30, -20)] // Source is shorter than frame
-        public void GetFrame_CheckWithNaiveImplementation(int sourceLength, int windowLength, int position)
+        public void CheckWithNaiveImplementation(int sourceLength, int windowLength, int position)
         {
             var random = new Random(57);
             var source = Enumerable.Range(0, sourceLength).Select(t => random.NextDouble()).ToArray();

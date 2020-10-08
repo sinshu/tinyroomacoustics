@@ -17,7 +17,7 @@ namespace TinyRoomAcousticsTest
         [DataRow(16)]
         [DataRow(64)]
         [DataRow(256)]
-        public void GenerateDelayFilter_CheckTimeDomainSignal(int dftLength)
+        public void CheckTimeDomainSignal(int dftLength)
         {
             for (var delaySampleCount = 0; delaySampleCount < dftLength; delaySampleCount++)
             {

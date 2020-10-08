@@ -21,11 +21,11 @@ namespace TinyRoomAcousticsTest
         [DataRow(123, 12)]
         [DataRow(25, 57)]
         [DataRow(10, 1)]
-        public void Convolve_CheckWithDelayFilter(int sourceLength, int firLength)
+        public void CheckWithDelayFilter(int sourceLength, int firLength)
         {
             var random = new Random(57);
             var source = Enumerable.Range(0, sourceLength).Select(t => random.NextDouble()).ToArray();
-            
+
             var delayFilter = new double[firLength];
             delayFilter[delayFilter.Length - 1] = 1.0;
 
@@ -45,7 +45,7 @@ namespace TinyRoomAcousticsTest
         [DataRow(123, 12)]
         [DataRow(25, 57)]
         [DataRow(10, 1)]
-        public void Convolve_CheckWithNaiveImplementation(int sourceLength, int firLength)
+        public void CheckWithNaiveImplementation(int sourceLength, int firLength)
         {
             var random = new Random(57);
             var source = Enumerable.Range(0, sourceLength).Select(t => random.NextDouble()).ToArray();
