@@ -8,6 +8,7 @@ using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using TinyRoomAcoustics;
+using TinyRoomAcoustics.Beamforming;
 using TinyRoomAcoustics.Dsp;
 using TinyRoomAcoustics.MirrorMethod;
 
