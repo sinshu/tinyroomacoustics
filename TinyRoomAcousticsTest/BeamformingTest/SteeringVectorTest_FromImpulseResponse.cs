@@ -21,7 +21,7 @@ namespace TinyRoomAcousticsTest
         {
             var channelCount = 3;
 
-            var impulseResponse = new double[][]
+            var impulseResponses = new double[][]
             {
                 new double[] { 0.0, 0.0, 0.0, 1.0 },
                 new double[] { 0.0, 0.0, 1.0 },
@@ -37,7 +37,7 @@ namespace TinyRoomAcousticsTest
 
             var dftLength = 1024;
 
-            var sv = SteeringVector.FromImpulseResponse(impulseResponse, dftLength);
+            var sv = SteeringVector.FromImpulseResponse(impulseResponses, dftLength);
 
             Assert.AreEqual(dftLength / 2 + 1, sv.Length);
 
