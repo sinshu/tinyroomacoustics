@@ -4,9 +4,9 @@ using System.Linq;
 using System.Numerics;
 using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
+using TinyRoomAcoustics;
 using TinyRoomAcoustics.Dsp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
 
 namespace TinyRoomAcousticsTest
 {

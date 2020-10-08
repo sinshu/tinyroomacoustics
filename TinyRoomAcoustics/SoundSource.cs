@@ -6,7 +6,7 @@ using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
-namespace TinyRoomAcoustics.MirrorMethod
+namespace TinyRoomAcoustics
 {
     public sealed class SoundSource
     {

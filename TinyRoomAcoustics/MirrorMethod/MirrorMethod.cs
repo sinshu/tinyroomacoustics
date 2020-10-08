@@ -162,7 +162,7 @@ namespace TinyRoomAcoustics.MirrorMethod
             var response = new Complex[dftLength / 2 + 1];
             foreach (var ray in GenerateRays(room, soundSource, microphone))
             {
-                var time = ray.Distance / Room.SoundSpeed;
+                var time = ray.Distance / AcousticConstants.SoundSpeed;
                 var delaySampleCount = sampleRate * time;
                 var delayFilter = GenerateDelayFilter(dftLength, delaySampleCount);
                 var distanceAttenuation = room.DistanceAttenuation(ray.Distance);

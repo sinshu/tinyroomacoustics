@@ -10,8 +10,6 @@ namespace TinyRoomAcoustics.MirrorMethod
 {
     public sealed class Room
     {
-        public static readonly double SoundSpeed = 340.0;
-
         private readonly Vector<double> size;
         private readonly DistanceAttenuation distanceAttenuation;
         private readonly ReflectionAttenuation reflectionAttenuation;

@@ -4,7 +4,7 @@ using System.Linq;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using TinyRoomAcoustics.MirrorMethod;
+using TinyRoomAcoustics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TinyRoomAcousticsTest

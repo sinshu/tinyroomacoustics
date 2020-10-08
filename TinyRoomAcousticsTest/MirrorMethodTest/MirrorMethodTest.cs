@@ -6,6 +6,7 @@ using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
+using TinyRoomAcoustics;
 using TinyRoomAcoustics.MirrorMethod;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -192,7 +193,7 @@ namespace TinyRoomAcousticsTest
             var delaySampleCount = 30;
 
             var time = (double)delaySampleCount / sampleRate;
-            var distance = Room.SoundSpeed * time;
+            var distance = AcousticConstants.SoundSpeed * time;
 
             var roomSize = DenseVector.OfArray(new double[] { distance, distance, distance });
             var distanceAttenuation = new DistanceAttenuation(distance => 0.9);
@@ -241,7 +242,7 @@ namespace TinyRoomAcousticsTest
             var delaySampleCount = 30;
 
             var time = (double)delaySampleCount / sampleRate;
-            var distance = Room.SoundSpeed * time;
+            var distance = AcousticConstants.SoundSpeed * time;
 
             var roomSize = DenseVector.OfArray(new double[] { distance, distance, distance });
             var distanceAttenuation = new DistanceAttenuation(distance => distance < 0.1 ? 3.1 : 2.3);
@@ -290,7 +291,7 @@ namespace TinyRoomAcousticsTest
             var delaySampleCount = 30;
 
             var time = (double)delaySampleCount / sampleRate;
-            var distance = Room.SoundSpeed * time;
+            var distance = AcousticConstants.SoundSpeed * time;
 
             var cutOff = 4000;
 
@@ -331,7 +332,7 @@ namespace TinyRoomAcousticsTest
             var delaySampleCount = 30;
 
             var time = (double)delaySampleCount / sampleRate;
-            var distance = Room.SoundSpeed * time;
+            var distance = AcousticConstants.SoundSpeed * time;
 
             var roomSize = DenseVector.OfArray(new double[] { distance, distance, distance });
             var distanceAttenuation = new DistanceAttenuation(distance => 0.9);
