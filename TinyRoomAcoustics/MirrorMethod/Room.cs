@@ -9,7 +9,8 @@ using MathNet.Numerics.LinearAlgebra.Double;
 namespace TinyRoomAcoustics.MirrorMethod
 {
     /// <summary>
-    /// Represents the room to be simulated.
+    /// Represents a room to be simulated.
+    /// The shape of a room is restricted to cuboid and all the walls share the same property.
     /// </summary>
     public sealed class Room
     {
