@@ -8,7 +8,7 @@ using MathNet.Numerics.IntegralTransforms;
 namespace TinyRoomAcoustics.Dsp
 {
     /// <summary>
-    /// This module provides common framing operations for signal processing..
+    /// This module provides common framing operations for signal processing.
     /// </summary>
     public static class Framing
     {
