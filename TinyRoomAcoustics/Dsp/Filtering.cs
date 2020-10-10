@@ -115,7 +115,7 @@ namespace TinyRoomAcoustics.Dsp
         /// <summary>
         /// Create a delay filter in the frequency domain.
         /// </summary>
-        /// <param name="dftLength">The length of DFT.</param>
+        /// <param name="dftLength">The length of the DFT.</param>
         /// <param name="delaySampleCount">The desired amount of delay in samples.
         /// Both integer and non-integer values are acceptable.</param>
         /// <returns>The delay filter in the frequency domain.
@@ -125,7 +125,7 @@ namespace TinyRoomAcoustics.Dsp
         {
             if (dftLength <= 0 || dftLength % 2 != 0)
             {
-                throw new ArgumentException(nameof(dftLength), "The length of DFT must be positive and even.");
+                throw new ArgumentException(nameof(dftLength), "The length of the DFT must be positive and even.");
             }
 
             var filter = new Complex[dftLength / 2 + 1];

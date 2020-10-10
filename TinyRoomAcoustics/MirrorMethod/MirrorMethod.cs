@@ -25,7 +25,7 @@ namespace TinyRoomAcoustics.MirrorMethod
         {
             if (maxReflectionCount < 0)
             {
-                throw new ArgumentException(nameof(maxReflectionCount), "The max reflection count must be non-negative.");
+                throw new ArgumentException(nameof(maxReflectionCount), "The number of times of reflection must be greater than or equal to zero.");
             }
 
             return GenerateMirroredRoomIndicesCore(maxReflectionCount);
@@ -151,7 +151,7 @@ namespace TinyRoomAcoustics.MirrorMethod
         /// <param name="soundSource">The sound source to be simulated.</param>
         /// <param name="microphone">The microphone to be simulated.</param>
         /// <param name="sampleRate">The sampling frequency of the impulse response.</param>
-        /// <param name="dftLength">The length of DFT.</param>
+        /// <param name="dftLength">The length of the DFT.</param>
         /// <returns>The simulated impulse response in the frequency domain.
         /// Since the components higher than Nyquist frequency are discarded,
         /// the length of the returned array is dftLength / 2 + 1.</returns>
@@ -176,7 +176,7 @@ namespace TinyRoomAcoustics.MirrorMethod
             }
             if (dftLength <= 0 || dftLength % 2 != 0)
             {
-                throw new ArgumentException(nameof(dftLength), "The length of DFT must be positive and even.");
+                throw new ArgumentException(nameof(dftLength), "The length of the DFT must be positive and even.");
             }
 
             var response = new Complex[dftLength / 2 + 1];
@@ -203,7 +203,7 @@ namespace TinyRoomAcoustics.MirrorMethod
         /// <param name="soundSource">The sound source to be simulated.</param>
         /// <param name="microphone">The microphone to be simulated.</param>
         /// <param name="sampleRate">The sampling frequency of the impulse response.</param>
-        /// <param name="dftLength">The length of DFT.</param>
+        /// <param name="dftLength">The length of the DFT.</param>
         /// <returns>The simulated impulse response.
         /// Since the acausal components are discarded,
         /// the length of the returned array is dftLength / 2.</returns>
@@ -228,7 +228,7 @@ namespace TinyRoomAcoustics.MirrorMethod
             }
             if (dftLength <= 0 || dftLength % 2 != 0)
             {
-                throw new ArgumentException(nameof(dftLength), "The length of DFT must be positive and even.");
+                throw new ArgumentException(nameof(dftLength), "The length of the DFT must be positive and even.");
             }
 
             var response = GenerateFrequencyDomainImpulseResponse(room, soundSource, microphone, sampleRate, dftLength);
