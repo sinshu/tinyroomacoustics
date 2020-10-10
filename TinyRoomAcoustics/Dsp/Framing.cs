@@ -7,8 +7,19 @@ using MathNet.Numerics.IntegralTransforms;
 
 namespace TinyRoomAcoustics.Dsp
 {
+    /// <summary>
+    /// This module provides common framing operations for signal processing..
+    /// </summary>
     public static class Framing
     {
+        /// <summary>
+        /// Extract a short-time frame from the source signal.
+        /// </summary>
+        /// <param name="source">The source signal.</param>
+        /// <param name="window">The window function applied to the frame.</param>
+        /// <param name="position">The start position of the frame in the source signal.</param>
+        /// <returns>The short-time frame.
+        /// The length of the frame is the same as the window.</returns>
         public static double[] GetFrame(this double[] source, double[] window, int position)
         {
             if (source == null)
@@ -55,6 +66,14 @@ namespace TinyRoomAcoustics.Dsp
             return frame;
         }
 
+        /// <summary>
+        /// Extract a short-time frame as an array of complex number from the source signal.
+        /// </summary>
+        /// <param name="source">The source signal.</param>
+        /// <param name="window">The window function applied to the frame.</param>
+        /// <param name="position">The start position of the frame in the source signal.</param>
+        /// <returns>The short-time frame converted to an array of complex number.
+        /// The length of the frame is the same as the window.</returns>
         public static Complex[] GetFrameComplex(this double[] source, double[] window, int position)
         {
             if (source == null)
@@ -101,6 +120,13 @@ namespace TinyRoomAcoustics.Dsp
             return frame;
         }
 
+        /// <summary>
+        /// Overlap-add the short-time frame to the destination signal.
+        /// </summary>
+        /// <param name="destination">The destination signal.</param>
+        /// <param name="frame">The short-time frame.</param>
+        /// <param name="window">The window function applied to the frame.</param>
+        /// <param name="position">The start position of the frame in the destination signal.</param>
         public static void OverlapAdd(this double[] destination, double[] frame, double[] window, int position)
         {
             if (destination == null)
@@ -152,6 +178,14 @@ namespace TinyRoomAcoustics.Dsp
             }
         }
 
+        /// <summary>
+        /// Overlap-add the short-time frame consisted of complex numbers to the destination signal.
+        /// Only real parts of the complex numbers in the frame are used.
+        /// </summary>
+        /// <param name="destination">The destination signal.</param>
+        /// <param name="frame">The short-time frame.</param>
+        /// <param name="window">The window function applied to the frame.</param>
+        /// <param name="position">The start position of the frame in the destination signal.</param>
         public static void OverlapAdd(this double[] destination, Complex[] frame, double[] window, int position)
         {
             if (destination == null)
