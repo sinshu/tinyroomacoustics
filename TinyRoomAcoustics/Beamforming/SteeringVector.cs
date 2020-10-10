@@ -10,8 +10,19 @@ using TinyRoomAcoustics.Dsp;
 
 namespace TinyRoomAcoustics.Beamforming
 {
+    /// <summary>
+    /// This module provides common methods to obtain steering vectors.
+    /// </summary>
     public static class SteeringVector
     {
+        /// <summary>
+        /// Create steering vectors for each discrete frequency from the multi-channel impulse response.
+        /// </summary>
+        /// <param name="impulseResponses">The impulse responses of the corresponding channels.</param>
+        /// <param name="dftLength">The length of the DFT.</param>
+        /// <returns>The steering vectors for each discrete frequency.
+        /// Since the components higher than Nyquist frequency are discarded,
+        /// the length of the returned array is dftLength / 2 + 1.</returns>
         public static Vector<Complex>[] FromImpulseResponse(double[][] impulseResponses, int dftLength)
         {
             if (impulseResponses == null)
@@ -20,7 +31,7 @@ namespace TinyRoomAcoustics.Beamforming
             }
             if (impulseResponses.Length == 0)
             {
-                throw new ArgumentException(nameof(impulseResponses), "The number of impulse responses must be non-zero.");
+                throw new ArgumentException(nameof(impulseResponses), "The number of impulse responses must be greater than zero.");
             }
             if (impulseResponses.Any(fir => fir == null))
             {
@@ -28,12 +39,12 @@ namespace TinyRoomAcoustics.Beamforming
             }
             if (impulseResponses.Any(fir => fir.Length == 0))
             {
-                throw new ArgumentException(nameof(impulseResponses), "The length of all the impulse responses must be non-zero.");
+                throw new ArgumentException(nameof(impulseResponses), "The length of all the impulse responses must be greater than zero.");
             }
 
             if (dftLength <= 0 || dftLength % 2 != 0)
             {
-                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
+                throw new ArgumentException(nameof(dftLength), "The length of the DFT must be positive and even.");
             }
 
             var channelCount = impulseResponses.Length;
@@ -69,6 +80,16 @@ namespace TinyRoomAcoustics.Beamforming
             return destination;
         }
 
+        /// <summary>
+        /// Create steering vectors geometrically for each discrete frequency under the near-field assumption.
+        /// </summary>
+        /// <param name="microphones">The microphones.</param>
+        /// <param name="soundSource">The sound source.</param>
+        /// <param name="sampleRate">The sampling frequency.</param>
+        /// <param name="dftLength">The length of the DFT.</param>
+        /// <returns>The steering vectors for each discrete frequency.
+        /// Since the components higher than Nyquist frequency are discarded,
+        /// the length of the returned array is dftLength / 2 + 1.</returns>
         public static Vector<Complex>[] FromNearFieldGeometry(IReadOnlyList<Microphone> microphones, SoundSource soundSource, int sampleRate, int dftLength)
         {
             if (microphones == null)
@@ -77,7 +98,7 @@ namespace TinyRoomAcoustics.Beamforming
             }
             if (microphones.Count == 0)
             {
-                throw new ArgumentException(nameof(microphones), "The number of microphones must be non-zero.");
+                throw new ArgumentException(nameof(microphones), "The number of microphones must be greater than zero.");
             }
             if (microphones.Any(mic => mic == null))
             {
@@ -91,12 +112,12 @@ namespace TinyRoomAcoustics.Beamforming
 
             if (sampleRate <= 0)
             {
-                throw new ArgumentException(nameof(sampleRate), "The sample rate must be positive.");
+                throw new ArgumentException(nameof(sampleRate), "The sampling frequency must be greater than zero.");
             }
 
             if (dftLength <= 0 || dftLength % 2 != 0)
             {
-                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
+                throw new ArgumentException(nameof(dftLength), "The length of the DFT must be positive and even.");
             }
 
             var channelCount = microphones.Count;
@@ -123,6 +144,17 @@ namespace TinyRoomAcoustics.Beamforming
             return destination;
         }
 
+        /// <summary>
+        /// Create steering vectors geometrically for each discrete frequency under the far-field assumption.
+        /// </summary>
+        /// <param name="microphones">The microphones.</param>
+        /// <param name="direction">The horizontal direction of arrival of the sound.</param>
+        /// <param name="pitch">The vertical direction of arrival of the sound.</param>
+        /// <param name="sampleRate">The sampling frequency.</param>
+        /// <param name="dftLength">The length of the DFT.</param>
+        /// <returns>The steering vectors for each discrete frequency.
+        /// Since the components higher than Nyquist frequency are discarded,
+        /// the length of the returned array is dftLength / 2 + 1.</returns>
         public static Vector<Complex>[] FromFarFieldGeometry(IReadOnlyList<Microphone> microphones, double direction, double pitch, int sampleRate, int dftLength)
         {
             if (microphones == null)
@@ -131,7 +163,7 @@ namespace TinyRoomAcoustics.Beamforming
             }
             if (microphones.Count == 0)
             {
-                throw new ArgumentException(nameof(microphones), "The number of microphones must be non-zero.");
+                throw new ArgumentException(nameof(microphones), "The number of microphones must be greater than zero.");
             }
             if (microphones.Any(mic => mic == null))
             {
@@ -140,12 +172,12 @@ namespace TinyRoomAcoustics.Beamforming
 
             if (sampleRate <= 0)
             {
-                throw new ArgumentException(nameof(sampleRate), "The sample rate must be positive.");
+                throw new ArgumentException(nameof(sampleRate), "The sampling frequency must be greater than zero.");
             }
 
             if (dftLength <= 0 || dftLength % 2 != 0)
             {
-                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
+                throw new ArgumentException(nameof(dftLength), "The length of the DFT must be positive and even.");
             }
 
             var channelCount = microphones.Count;
