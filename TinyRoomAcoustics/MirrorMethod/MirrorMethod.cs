@@ -91,7 +91,7 @@ namespace TinyRoomAcoustics.MirrorMethod
             return DenseVector.OfArray(array);
         }
 
-        public static IEnumerable<Ray> GenerateRays(Room room, SoundSource soundSource, Microphone microphone)
+        public static IEnumerable<SoundRay> GenerateSoundRays(Room room, SoundSource soundSource, Microphone microphone)
         {
             if (room == null)
             {
@@ -106,17 +106,17 @@ namespace TinyRoomAcoustics.MirrorMethod
                 throw new ArgumentNullException(nameof(microphone));
             }
 
-            return GenerateRaysCore(room, soundSource, microphone);
+            return GenerateSoundRaysCore(room, soundSource, microphone);
         }
 
-        private static IEnumerable<Ray> GenerateRaysCore(Room room, SoundSource soundSource, Microphone microphone)
+        private static IEnumerable<SoundRay> GenerateSoundRaysCore(Room room, SoundSource soundSource, Microphone microphone)
         {
             foreach (var index in GenerateMirroredRoomIndices(room.MaxReflectionCount))
             {
                 var mirroredPosition = GetMirroredPosition(room, microphone, index);
                 var distance = (mirroredPosition - soundSource.Position).L2Norm();
                 var reflectionCount = Math.Abs(index.X) + Math.Abs(index.Y) + Math.Abs(index.Z);
-                yield return new Ray(distance, reflectionCount);
+                yield return new SoundRay(distance, reflectionCount);
             }
         }
 
@@ -145,7 +145,7 @@ namespace TinyRoomAcoustics.MirrorMethod
             }
 
             var response = new Complex[dftLength / 2 + 1];
-            foreach (var ray in GenerateRays(room, soundSource, microphone))
+            foreach (var ray in GenerateSoundRays(room, soundSource, microphone))
             {
                 var time = ray.Distance / AcousticConstants.SoundSpeed;
                 var delaySampleCount = sampleRate * time;

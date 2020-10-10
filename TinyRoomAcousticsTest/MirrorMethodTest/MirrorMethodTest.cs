@@ -123,7 +123,7 @@ namespace TinyRoomAcousticsTest
         }
 
         [TestMethod]
-        public void GenerateRays_CheckRayProperties()
+        public void GenerateSoundRays_CheckRayProperties()
         {
             var roomSize = DenseVector.OfArray(new double[] { 2.0, 2.0, 2.0 });
             var distanceAttenuation = new DistanceAttenuation(distance => 0.9);
@@ -131,7 +131,7 @@ namespace TinyRoomAcousticsTest
             var room = new Room(roomSize, distanceAttenuation, reflectionAttenuation, 1);
             var soundSource = new SoundSource(1.0, 1.0, 1.0);
             var microphone = new Microphone(1.0, 1.0, 1.0);
-            var rays = MirrorMethod.GenerateRays(room, soundSource, microphone).ToArray();
+            var rays = MirrorMethod.GenerateSoundRays(room, soundSource, microphone).ToArray();
 
             Assert.AreEqual(7, rays.Length);
 

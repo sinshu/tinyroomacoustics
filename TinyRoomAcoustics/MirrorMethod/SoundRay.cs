@@ -11,7 +11,7 @@ namespace TinyRoomAcoustics.MirrorMethod
     /// <summary>
     /// Represents a sound ray.
     /// </summary>
-    public sealed class Ray
+    public sealed class SoundRay
     {
         private readonly double distance;
         private readonly int reflectionCount;
@@ -21,7 +21,7 @@ namespace TinyRoomAcoustics.MirrorMethod
         /// </summary>
         /// <param name="distance">The distance the sound ray traveled in meters.</param>
         /// <param name="reflectionCount">The number of times the sound ray reflected.</param>
-        public Ray(double distance, int reflectionCount)
+        public SoundRay(double distance, int reflectionCount)
         {
             this.distance = distance;
             this.reflectionCount = reflectionCount;
