@@ -10,8 +10,17 @@ using TinyRoomAcoustics.Dsp;
 
 namespace TinyRoomAcoustics.MirrorMethod
 {
+    /// <summary>
+    /// The room acoustics simulation module based on the mirror method.
+    /// </summary>
     public static class MirrorMethod
     {
+        /// <summary>
+        /// Generate mirrored room indices which are necessary to simulate the given number of times of sound reflection.
+        /// </summary>
+        /// <param name="maxReflectionCount">The max number of times of sound reflection.</param>
+        /// <returns>All the mirrored room indices which are necessary to simulate the given number of times of sound reflection.</returns>
+        /// <seealso cref="MirroredRoomIndex"/>
         public static IEnumerable<MirroredRoomIndex> GenerateMirroredRoomIndices(int maxReflectionCount)
         {
             if (maxReflectionCount < 0)
@@ -50,6 +59,14 @@ namespace TinyRoomAcoustics.MirrorMethod
             }
         }
 
+        /// <summary>
+        /// Get the position of the imaginary microphone in the mirrored room.
+        /// </summary>
+        /// <param name="room">The room to be simulated.</param>
+        /// <param name="microphone">The microphone in the original room.</param>
+        /// <param name="index">The index of the mirrored room.</param>
+        /// <returns>The position of the imaginary microphone in the mirrored room.</returns>
+        /// <seealso cref="MirroredRoomIndex"/>
         public static Vector<double> GetMirroredPosition(Room room, Microphone microphone, MirroredRoomIndex index)
         {
             if (room == null)
@@ -91,6 +108,13 @@ namespace TinyRoomAcoustics.MirrorMethod
             return DenseVector.OfArray(array);
         }
 
+        /// <summary>
+        /// Generate sound rays.
+        /// </summary>
+        /// <param name="room">The room to be simulated.</param>
+        /// <param name="soundSource">The sound source to be simulated.</param>
+        /// <param name="microphone">The microphone to be simulated.</param>
+        /// <returns>Simulated sound rays.</returns>
         public static IEnumerable<SoundRay> GenerateSoundRays(Room room, SoundSource soundSource, Microphone microphone)
         {
             if (room == null)
@@ -120,6 +144,17 @@ namespace TinyRoomAcoustics.MirrorMethod
             }
         }
 
+        /// <summary>
+        /// Generate the room impulse response in the frequency domain.
+        /// </summary>
+        /// <param name="room">The room to be simulated.</param>
+        /// <param name="soundSource">The sound source to be simulated.</param>
+        /// <param name="microphone">The microphone to be simulated.</param>
+        /// <param name="sampleRate">The sampling frequency of the impulse response.</param>
+        /// <param name="dftLength">The length of DFT.</param>
+        /// <returns>The simulated impulse response in the frequency domain.
+        /// Since the components higher than Nyquist frequency are discarded,
+        /// the length of the returned array is dftLength / 2 + 1.</returns>
         public static Complex[] GenerateFrequencyDomainImpulseResponse(Room room, SoundSource soundSource, Microphone microphone, int sampleRate, int dftLength)
         {
             if (room == null)
@@ -137,11 +172,11 @@ namespace TinyRoomAcoustics.MirrorMethod
 
             if (sampleRate <= 0)
             {
-                throw new ArgumentException(nameof(sampleRate), "The sample rate must be positive.");
+                throw new ArgumentException(nameof(sampleRate), "The sampling frequency must be greater than zero.");
             }
             if (dftLength <= 0 || dftLength % 2 != 0)
             {
-                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
+                throw new ArgumentException(nameof(dftLength), "The length of DFT must be positive and even.");
             }
 
             var response = new Complex[dftLength / 2 + 1];
@@ -161,6 +196,17 @@ namespace TinyRoomAcoustics.MirrorMethod
             return response;
         }
 
+        /// <summary>
+        /// Generate the room impulse response.
+        /// </summary>
+        /// <param name="room">The room to be simulated.</param>
+        /// <param name="soundSource">The sound source to be simulated.</param>
+        /// <param name="microphone">The microphone to be simulated.</param>
+        /// <param name="sampleRate">The sampling frequency of the impulse response.</param>
+        /// <param name="dftLength">The length of DFT.</param>
+        /// <returns>The simulated impulse response.
+        /// Since the acausal components are discarded,
+        /// the length of the returned array is dftLength / 2.</returns>
         public static double[] GenerateImpulseResponse(Room room, SoundSource soundSource, Microphone microphone, int sampleRate, int dftLength)
         {
             if (room == null)
@@ -178,11 +224,11 @@ namespace TinyRoomAcoustics.MirrorMethod
 
             if (sampleRate <= 0)
             {
-                throw new ArgumentException(nameof(sampleRate), "The sample rate must be positive.");
+                throw new ArgumentException(nameof(sampleRate), "The sampling frequency must be greater than zero.");
             }
             if (dftLength <= 0 || dftLength % 2 != 0)
             {
-                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
+                throw new ArgumentException(nameof(dftLength), "The length of DFT must be positive and even.");
             }
 
             var response = GenerateFrequencyDomainImpulseResponse(room, soundSource, microphone, sampleRate, dftLength);
