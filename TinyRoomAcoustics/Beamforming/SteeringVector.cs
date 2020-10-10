@@ -123,9 +123,69 @@ namespace TinyRoomAcoustics.Beamforming
             return destination;
         }
 
-        public static Vector<Complex>[] FromFarFieldGeometry(IReadOnlyList<Microphone> microphones, double direction, int sampleRate, int dftLength)
+        public static Vector<Complex>[] FromFarFieldGeometry(IReadOnlyList<Microphone> microphones, double direction, double pitch, int sampleRate, int dftLength)
         {
-            throw new NotImplementedException();
+            if (microphones == null)
+            {
+                throw new ArgumentNullException(nameof(microphones));
+            }
+            if (microphones.Count == 0)
+            {
+                throw new ArgumentException(nameof(microphones), "The number of microphones must be non-zero.");
+            }
+            if (microphones.Any(mic => mic == null))
+            {
+                throw new ArgumentException(nameof(microphones), "All the microphone object must be non-null.");
+            }
+
+            if (sampleRate <= 0)
+            {
+                throw new ArgumentException(nameof(sampleRate), "The sample rate must be positive.");
+            }
+
+            if (dftLength <= 0 || dftLength % 2 != 0)
+            {
+                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
+            }
+
+            var channelCount = microphones.Count;
+
+            var destination = new Vector<Complex>[dftLength / 2 + 1];
+            for (var w = 0; w < destination.Length; w++)
+            {
+                destination[w] = new DenseVector(channelCount);
+            }
+
+            var dv = new MathNet.Numerics.LinearAlgebra.Double.DenseVector(3);
+            dv[0] = Math.Cos(direction) * Math.Cos(pitch);
+            dv[1] = Math.Sin(direction) * Math.Cos(pitch);
+            dv[2] = Math.Sin(pitch);
+
+            var distances = new double[channelCount];
+            for (var ch = 0; ch < channelCount; ch++)
+            {
+                distances[ch] = dv * microphones[ch].Position;
+            }
+            var offset = distances.Min();
+            for (var ch = 0; ch < channelCount; ch++)
+            {
+                distances[ch] -= offset;
+            }
+
+            for (var ch = 0; ch < channelCount; ch++)
+            {
+                var distance = distances[ch];
+                var time = distance / AcousticConstants.SoundSpeed;
+                var delaySampleCount = sampleRate * time;
+                var delayFilter = Filtering.CreateFrequencyDomainDelayFilter(dftLength, delaySampleCount);
+
+                for (var w = 0; w < destination.Length; w++)
+                {
+                    destination[w][ch] = delayFilter[w];
+                }
+            }
+
+            return destination;
         }
     }
 }
