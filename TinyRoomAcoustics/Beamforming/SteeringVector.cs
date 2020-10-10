@@ -20,9 +20,11 @@ namespace TinyRoomAcoustics.Beamforming
         /// </summary>
         /// <param name="impulseResponses">The impulse responses of the corresponding channels.</param>
         /// <param name="dftLength">The length of the DFT.</param>
-        /// <returns>The steering vectors for each discrete frequency.
+        /// <returns>
+        /// The steering vectors for each discrete frequency.
         /// Since the components higher than Nyquist frequency are discarded,
-        /// the length of the returned array is dftLength / 2 + 1.</returns>
+        /// the length of the returned array is dftLength / 2 + 1.
+        /// </returns>
         public static Vector<Complex>[] FromImpulseResponse(double[][] impulseResponses, int dftLength)
         {
             if (impulseResponses == null)
@@ -87,9 +89,11 @@ namespace TinyRoomAcoustics.Beamforming
         /// <param name="soundSource">The sound source.</param>
         /// <param name="sampleRate">The sampling frequency.</param>
         /// <param name="dftLength">The length of the DFT.</param>
-        /// <returns>The steering vectors for each discrete frequency.
+        /// <returns>
+        /// The steering vectors for each discrete frequency.
         /// Since the components higher than Nyquist frequency are discarded,
-        /// the length of the returned array is dftLength / 2 + 1.</returns>
+        /// the length of the returned array is dftLength / 2 + 1.
+        /// </returns>
         public static Vector<Complex>[] FromNearFieldGeometry(IReadOnlyList<Microphone> microphones, SoundSource soundSource, int sampleRate, int dftLength)
         {
             if (microphones == null)
@@ -152,9 +156,11 @@ namespace TinyRoomAcoustics.Beamforming
         /// <param name="pitch">The vertical direction of arrival of the sound.</param>
         /// <param name="sampleRate">The sampling frequency.</param>
         /// <param name="dftLength">The length of the DFT.</param>
-        /// <returns>The steering vectors for each discrete frequency.
+        /// <returns>
+        /// The steering vectors for each discrete frequency.
         /// Since the components higher than Nyquist frequency are discarded,
-        /// the length of the returned array is dftLength / 2 + 1.</returns>
+        /// the length of the returned array is dftLength / 2 + 1.
+        /// </returns>
         public static Vector<Complex>[] FromFarFieldGeometry(IReadOnlyList<Microphone> microphones, double direction, double pitch, int sampleRate, int dftLength)
         {
             if (microphones == null)

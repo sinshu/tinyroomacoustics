@@ -152,9 +152,11 @@ namespace TinyRoomAcoustics.MirrorMethod
         /// <param name="microphone">The microphone to be simulated.</param>
         /// <param name="sampleRate">The sampling frequency of the impulse response.</param>
         /// <param name="dftLength">The length of the DFT.</param>
-        /// <returns>The simulated impulse response in the frequency domain.
+        /// <returns>
+        /// The simulated impulse response in the frequency domain.
         /// Since the components higher than Nyquist frequency are discarded,
-        /// the length of the returned array is dftLength / 2 + 1.</returns>
+        /// the length of the returned array is dftLength / 2 + 1.
+        /// </returns>
         public static Complex[] GenerateFrequencyDomainImpulseResponse(Room room, SoundSource soundSource, Microphone microphone, int sampleRate, int dftLength)
         {
             if (room == null)
@@ -204,9 +206,11 @@ namespace TinyRoomAcoustics.MirrorMethod
         /// <param name="microphone">The microphone to be simulated.</param>
         /// <param name="sampleRate">The sampling frequency of the impulse response.</param>
         /// <param name="dftLength">The length of the DFT.</param>
-        /// <returns>The simulated impulse response.
+        /// <returns>
+        /// The simulated impulse response.
         /// Since the acausal components are discarded,
-        /// the length of the returned array is dftLength / 2.</returns>
+        /// the length of the returned array is dftLength / 2.
+        /// </returns>
         public static double[] GenerateImpulseResponse(Room room, SoundSource soundSource, Microphone microphone, int sampleRate, int dftLength)
         {
             if (room == null)

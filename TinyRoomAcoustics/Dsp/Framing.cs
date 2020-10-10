@@ -18,8 +18,10 @@ namespace TinyRoomAcoustics.Dsp
         /// <param name="source">The source signal.</param>
         /// <param name="window">The window function applied to the frame.</param>
         /// <param name="position">The start position of the frame in the source signal.</param>
-        /// <returns>The short-time frame.
-        /// The length of the frame is the same as the window.</returns>
+        /// <returns>
+        /// The short-time frame.
+        /// The length of the frame is the same as the window.
+        /// </returns>
         public static double[] GetFrame(this double[] source, double[] window, int position)
         {
             if (source == null)
@@ -72,8 +74,10 @@ namespace TinyRoomAcoustics.Dsp
         /// <param name="source">The source signal.</param>
         /// <param name="window">The window function applied to the frame.</param>
         /// <param name="position">The start position of the frame in the source signal.</param>
-        /// <returns>The short-time frame converted to an array of complex number.
-        /// The length of the frame is the same as the window.</returns>
+        /// <returns>
+        /// The short-time frame converted to an array of complex number.
+        /// The length of the frame is the same as the window.
+        /// </returns>
         public static Complex[] GetFrameComplex(this double[] source, double[] window, int position)
         {
             if (source == null)
