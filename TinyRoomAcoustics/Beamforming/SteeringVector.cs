@@ -68,5 +68,64 @@ namespace TinyRoomAcoustics.Beamforming
 
             return destination;
         }
+
+        public static Vector<Complex>[] FromNearFieldGeometry(IReadOnlyList<Microphone> microphones, SoundSource soundSource, int sampleRate, int dftLength)
+        {
+            if (microphones == null)
+            {
+                throw new ArgumentNullException(nameof(microphones));
+            }
+            if (microphones.Count == 0)
+            {
+                throw new ArgumentException(nameof(microphones), "The number of microphones must be non-zero.");
+            }
+            if (microphones.Any(mic => mic == null))
+            {
+                throw new ArgumentException(nameof(microphones), "All the microphone object must be non-null.");
+            }
+
+            if (soundSource == null)
+            {
+                throw new ArgumentNullException(nameof(soundSource));
+            }
+
+            if (sampleRate <= 0)
+            {
+                throw new ArgumentException(nameof(sampleRate), "The sample rate must be positive.");
+            }
+
+            if (dftLength <= 0 || dftLength % 2 != 0)
+            {
+                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
+            }
+
+            var channelCount = microphones.Count;
+
+            var destination = new Vector<Complex>[dftLength / 2 + 1];
+            for (var w = 0; w < destination.Length; w++)
+            {
+                destination[w] = new DenseVector(channelCount);
+            }
+
+            for (var ch = 0; ch < channelCount; ch++)
+            {
+                var distance = (soundSource.Position - microphones[ch].Position).L2Norm();
+                var time = distance / AcousticConstants.SoundSpeed;
+                var delaySampleCount = sampleRate * time;
+                var delayFilter = Filtering.CreateFrequencyDomainDelayFilter(dftLength, delaySampleCount);
+
+                for (var w = 0; w < destination.Length; w++)
+                {
+                    destination[w][ch] = delayFilter[w];
+                }
+            }
+
+            return destination;
+        }
+
+        public static Vector<Complex>[] FromFarFieldGeometry(IReadOnlyList<Microphone> microphones, double direction, int sampleRate, int dftLength)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
