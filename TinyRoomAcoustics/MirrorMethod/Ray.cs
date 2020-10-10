@@ -17,7 +17,7 @@ namespace TinyRoomAcoustics.MirrorMethod
         private readonly int reflectionCount;
 
         /// <summary>
-        /// 
+        /// Create a new sound ray.
         /// </summary>
         /// <param name="distance">The distance the sound ray traveled in meters.</param>
         /// <param name="reflectionCount">The number of times the sound ray reflected.</param>
