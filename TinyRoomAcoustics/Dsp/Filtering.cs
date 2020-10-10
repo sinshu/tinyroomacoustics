@@ -7,8 +7,17 @@ using MathNet.Numerics.IntegralTransforms;
 
 namespace TinyRoomAcoustics.Dsp
 {
+    /// <summary>
+    /// This module provides common filtering operations.
+    /// </summary>
     public static class Filtering
     {
+        /// <summary>
+        /// Convolve the FIR to the source signal.
+        /// </summary>
+        /// <param name="source">The source signal to be convolved.</param>
+        /// <param name="fir">The FIR to convolve.</param>
+        /// <returns>The convolved signal.</returns>
         public static double[] Convolve(this double[] source, double[] fir)
         {
             if (source == null)
@@ -103,11 +112,20 @@ namespace TinyRoomAcoustics.Dsp
             return pot;
         }
 
+        /// <summary>
+        /// Create a delay filter in the frequency domain.
+        /// </summary>
+        /// <param name="dftLength">The length of DFT.</param>
+        /// <param name="delaySampleCount">The desired amount of delay in samples.
+        /// Both integer and non-integer values are acceptable.</param>
+        /// <returns>The delay filter in the frequency domain.
+        /// Since the components higher than Nyquist frequency are discarded,
+        /// the length of the returned array is dftLength / 2 + 1.</returns>
         public static Complex[] CreateFrequencyDomainDelayFilter(int dftLength, double delaySampleCount)
         {
             if (dftLength <= 0 || dftLength % 2 != 0)
             {
-                throw new ArgumentException(nameof(dftLength), "The DFT length must be positive and even.");
+                throw new ArgumentException(nameof(dftLength), "The length of DFT must be positive and even.");
             }
 
             var filter = new Complex[dftLength / 2 + 1];
