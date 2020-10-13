@@ -55,14 +55,11 @@ namespace TinyRoomAcoustics.Dsp
 
             var frame = new double[window.Length];
 
-            if (frameEnd - frameStart > 0)
+            var st = sourceStart;
+            for (var ft = frameStart; ft < frameEnd; ft++)
             {
-                var st = sourceStart;
-                for (var ft = frameStart; ft < frameEnd; ft++)
-                {
-                    frame[ft] = window[ft] * source[st];
-                    st++;
-                }
+                frame[ft] = window[ft] * source[st];
+                st++;
             }
 
             return frame;
@@ -111,14 +108,11 @@ namespace TinyRoomAcoustics.Dsp
 
             var frame = new Complex[window.Length];
 
-            if (frameEnd - frameStart > 0)
+            var st = sourceStart;
+            for (var ft = frameStart; ft < frameEnd; ft++)
             {
-                var st = sourceStart;
-                for (var ft = frameStart; ft < frameEnd; ft++)
-                {
-                    frame[ft] = window[ft] * source[st];
-                    st++;
-                }
+                frame[ft] = window[ft] * source[st];
+                st++;
             }
 
             return frame;
@@ -171,14 +165,11 @@ namespace TinyRoomAcoustics.Dsp
                 frameEnd -= exceedance;
             }
 
-            if (destinationEnd - destinationStart > 0)
+            var ft = frameStart;
+            for (var dt = destinationStart; dt < destinationEnd; dt++)
             {
-                var ft = frameStart;
-                for (var dt = destinationStart; dt < destinationEnd; dt++)
-                {
-                    destination[dt] += window[ft] * frame[ft];
-                    ft++;
-                }
+                destination[dt] += window[ft] * frame[ft];
+                ft++;
             }
         }
 
@@ -230,14 +221,11 @@ namespace TinyRoomAcoustics.Dsp
                 frameEnd -= exceedance;
             }
 
-            if (destinationEnd - destinationStart > 0)
+            var ft = frameStart;
+            for (var dt = destinationStart; dt < destinationEnd; dt++)
             {
-                var ft = frameStart;
-                for (var dt = destinationStart; dt < destinationEnd; dt++)
-                {
-                    destination[dt] += window[ft] * frame[ft].Real;
-                    ft++;
-                }
+                destination[dt] += window[ft] * frame[ft].Real;
+                ft++;
             }
         }
     }
