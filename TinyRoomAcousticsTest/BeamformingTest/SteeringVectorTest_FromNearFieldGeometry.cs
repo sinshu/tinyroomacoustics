@@ -42,9 +42,9 @@ namespace TinyRoomAcousticsTest
 
             var delayFilters = new Complex[][]
             {
+                Filtering.CreateFrequencyDomainDelayFilter(dftLength, 0),
                 Filtering.CreateFrequencyDomainDelayFilter(dftLength, 3),
-                Filtering.CreateFrequencyDomainDelayFilter(dftLength, 6),
-                Filtering.CreateFrequencyDomainDelayFilter(dftLength, 9)
+                Filtering.CreateFrequencyDomainDelayFilter(dftLength, 6)
             };
 
             for (var w = 0; w < dftLength / 2 + 1; w++)

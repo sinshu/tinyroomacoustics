@@ -132,9 +132,20 @@ namespace TinyRoomAcoustics.Beamforming
                 destination[w] = new DenseVector(channelCount);
             }
 
+            var distances = new double[channelCount];
             for (var ch = 0; ch < channelCount; ch++)
             {
-                var distance = (soundSource.Position - microphones[ch].Position).L2Norm();
+                distances[ch] = (soundSource.Position - microphones[ch].Position).L2Norm();
+            }
+            var offset = distances.Min();
+            for (var ch = 0; ch < channelCount; ch++)
+            {
+                distances[ch] -= offset;
+            }
+
+            for (var ch = 0; ch < channelCount; ch++)
+            {
+                var distance = distances[ch];
                 var time = distance / AcousticConstants.SoundSpeed;
                 var delaySampleCount = sampleRate * time;
                 var delayFilter = Filtering.CreateFrequencyDomainDelayFilter(dftLength, delaySampleCount);
