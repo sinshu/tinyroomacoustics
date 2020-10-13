@@ -10,7 +10,20 @@ using TinyRoomAcoustics.Dsp;
 
 namespace TinyRoomAcoustics.Beamforming
 {
-    public static class DelayAndSum
+    public sealed class DelayAndSum
     {
+        private double[] window;
+        private int frameShift;
+
+        public DelayAndSum(double[] window, int frameShift)
+        {
+            this.window = window.ToArray();
+            this.frameShift = frameShift;
+        }
+
+        public double[] Process(double[][] source, Vector<Complex>[] steering)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
