@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TinyRoomAcousticsTest
 {
     [TestClass]
-    public class FramingTest_GetFrame
+    public class FramingTest_GetFrame_SingleChannel
     {
         [DataTestMethod]
         [DataRow(100, 30, 50)]
@@ -72,7 +72,7 @@ namespace TinyRoomAcousticsTest
             }
         }
 
-        public static double[] GetFrame_Naive(double[] source, double[] window, int position)
+        private static double[] GetFrame_Naive(double[] source, double[] window, int position)
         {
             var frame = new double[window.Length];
             for (var ft = 0; ft < frame.Length; ft++)

@@ -154,7 +154,7 @@ namespace TinyRoomAcoustics.MirrorMethod
         /// <param name="dftLength">The length of the DFT.</param>
         /// <returns>
         /// The simulated impulse response in the frequency domain.
-        /// Since the components higher than Nyquist frequency are discarded,
+        /// Since the components higher than the Nyquist frequency are discarded,
         /// the length of the returned array is dftLength / 2 + 1.
         /// </returns>
         public static Complex[] GenerateFrequencyDomainImpulseResponse(Room room, SoundSource soundSource, Microphone microphone, int sampleRate, int dftLength)

@@ -66,6 +66,39 @@ namespace TinyRoomAcoustics.Dsp
         }
 
         /// <summary>
+        /// Extract a short-time frame from the source signal (multi-channel).
+        /// </summary>
+        /// <param name="source">The source signal (multi-channel).</param>
+        /// <param name="window">The window function applied to the frame.</param>
+        /// <param name="position">The start position of the frame in the source signal.</param>
+        /// <returns>
+        /// The short-time frame (multi-channel).
+        /// The length of the frame is the same as the window.
+        /// </returns>
+        public static double[][] GetFrame(this double[][] source, double[] window, int position)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+            if (window == null)
+            {
+                throw new ArgumentNullException(nameof(window));
+            }
+
+            if (source.Length == 0)
+            {
+                throw new ArgumentException(nameof(source), "The source signal must contain one or more channels.");
+            }
+            if (source.Any(s => s == null))
+            {
+                throw new ArgumentException(nameof(source), "All the channels must be non-null.");
+            }
+
+            return source.Select(s => GetFrame(s, window, position)).ToArray();
+        }
+
+        /// <summary>
         /// Extract a short-time frame as an array of complex number from the source signal.
         /// </summary>
         /// <param name="source">The source signal.</param>

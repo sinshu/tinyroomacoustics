@@ -122,7 +122,7 @@ namespace TinyRoomAcoustics.Dsp
         /// </param>
         /// <returns>
         /// The delay filter in the frequency domain.
-        /// Since the components higher than Nyquist frequency are discarded,
+        /// Since the components higher than the Nyquist frequency are discarded,
         /// the length of the returned array is dftLength / 2 + 1.
         /// </returns>
         public static Complex[] CreateFrequencyDomainDelayFilter(int dftLength, double delaySampleCount)
