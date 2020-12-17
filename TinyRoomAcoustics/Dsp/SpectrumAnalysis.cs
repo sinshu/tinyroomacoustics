@@ -23,7 +23,7 @@ namespace TinyRoomAcoustics.Dsp
         /// If y delays compared to x at a frequency, the result is a positive value.
         /// If y precedes, the result is a negative value.
         /// </returns>
-        public static double[] EstimatePerFrequencyDelay(Complex[] x, Complex[] y)
+        public static double[] EstimatePerFrequencyDelays(Complex[] x, Complex[] y)
         {
             if (x == null)
             {
@@ -54,15 +54,28 @@ namespace TinyRoomAcoustics.Dsp
 
             for (var w = 1; w < delays.Length; w++)
             {
-                var waveLength = frameLength / w;
+                var waveLength = (double)frameLength / w;
 
                 var dp = x[w].Phase - y[w].Phase;
-                dp = (dp + Math.PI) % (2 * Math.PI) - Math.PI;
+                dp = Mod(dp + Math.PI, 2 * Math.PI) - Math.PI;
 
                 delays[w] = dp / (2 * Math.PI) * waveLength;
             }
 
             return delays;
+        }
+
+        private static double Mod(double a, double b)
+        {
+            var result = a % b;
+            if (result < 0)
+            {
+                return result + b;
+            }
+            else
+            {
+                return result;
+            }
         }
     }
 }
