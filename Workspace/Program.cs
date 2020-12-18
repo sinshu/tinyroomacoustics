@@ -11,6 +11,7 @@ using TinyRoomAcoustics;
 using TinyRoomAcoustics.Beamforming;
 using TinyRoomAcoustics.Dsp;
 using TinyRoomAcoustics.MirrorMethod;
+using TinyRoomAcoustics.SourceSeparation;
 
 namespace Workspace
 {

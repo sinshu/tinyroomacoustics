@@ -5,13 +5,13 @@ using System.Numerics;
 using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 using TinyRoomAcoustics;
-using TinyRoomAcoustics.Dsp;
+using TinyRoomAcoustics.SourceSeparation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TinyRoomAcousticsTest
 {
     [TestClass]
-    public class SpectrumAnalysis_EstimatePerFrequencyDelays
+    public class SourceSeparation_EstimatePerFrequencyDelays
     {
         [DataTestMethod]
         [DataRow(64, 0, 1)]
@@ -33,7 +33,7 @@ namespace TinyRoomAcousticsTest
             Fourier.Forward(x, FourierOptions.AsymmetricScaling);
             Fourier.Forward(y, FourierOptions.AsymmetricScaling);
 
-            var delays = SpectrumAnalysis.EstimatePerFrequencyDelays(x, y);
+            var delays = SourceSeparation.EstimatePerFrequencyDelays(x, y);
 
             for (var w = 1; w < delays.Length; w++)
             {
@@ -75,7 +75,7 @@ namespace TinyRoomAcousticsTest
             Fourier.Forward(x, FourierOptions.AsymmetricScaling);
             Fourier.Forward(y, FourierOptions.AsymmetricScaling);
 
-            var delays = SpectrumAnalysis.EstimatePerFrequencyDelays(x, y);
+            var delays = SourceSeparation.EstimatePerFrequencyDelays(x, y);
 
             for (var w = 1; w < delays.Length; w++)
             {

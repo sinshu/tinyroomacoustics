@@ -4,12 +4,12 @@ using System.Linq;
 using System.Numerics;
 using MathNet.Numerics;
 
-namespace TinyRoomAcoustics.Dsp
+namespace TinyRoomAcoustics.SourceSeparation
 {
     /// <summary>
-    /// This module provides spectrum analysis methods.
+    /// This module provides common operations for source separation.
     /// </summary>
-    public static class SpectrumAnalysis
+    public static class SourceSeparation
     {
         /// <summary>
         /// Estimate per-frequency delays between the two DFTs.
