@@ -18,10 +18,13 @@ namespace TinyRoomAcoustics.Dsp
         /// <param name="y">The DFT to be compared.</param>
         /// <returns>
         /// The delays in samples.
+        /// The result values can be non-integer.
         /// Since the components higher than the Nyquist frequency are discarded,
         /// the length of the returned array is x.Length / 2 + 1.
         /// If y delays compared to x at a frequency, the result is a positive value.
         /// If y precedes, the result is a negative value.
+        /// Note that the result values in lower and higher frequency bands can be inaccurate
+        /// due to several factors including aliasing.
         /// </returns>
         public static double[] EstimatePerFrequencyDelays(Complex[] x, Complex[] y)
         {
