@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TinyRoomAcousticsTest
 {
     [TestClass]
-    public class SourceSeparation_EstimatePerFrequencyDelays
+    public class SourceSeparationTest_EstimatePerFrequencyDelays
     {
         [DataTestMethod]
         [DataRow(64, 0, 1)]
