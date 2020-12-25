@@ -65,7 +65,32 @@ namespace TinyRoomAcoustics.SourceSeparation
                 }
             }
 
-            delayToPosition = (delay.PseudoInverse() * position).Transpose();
+            delayToPosition = (PseudoInverse(delay) * position).Transpose();
+        }
+
+        private static Matrix<double> PseudoInverse(Matrix<double> matrix)
+        {
+            var svd = matrix.Svd(true);
+
+            var w = svd.W;
+            var s = svd.S;
+
+            var tolerance = 1.0E-3 * svd.L2Norm;
+
+            if (s.Take(2).Any(value => value < tolerance))
+            {
+                throw new ArithmeticException(
+                    "DOA estimation is not possible with the given microphone arrangement. " +
+                    "It is not allowed to place all the microphones on a single line.");
+            }
+
+            for (int i = 0; i < s.Count; i++)
+            {
+                s[i] = s[i] < tolerance ? 0 : 1 / s[i];
+            }
+            w.SetDiagonal(s);
+
+            return (svd.U * (w * svd.VT)).Transpose();
         }
 
         public double[] Estimate(Complex[][] dfts)
